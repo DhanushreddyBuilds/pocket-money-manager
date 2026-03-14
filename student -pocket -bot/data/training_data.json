@@ -1,0 +1,29 @@
+{
+  "expense": [
+    "spent money",
+    "i spent 200",
+    "paid for food",
+    "bought book",
+    "expense 300",
+    "paid bus fare"
+  ],
+  "income": [
+    "received money",
+    "got pocket money",
+    "income 500",
+    "salary credited",
+    "got 2000"
+  ],
+  "balance": [
+    "show balance",
+    "what is my balance",
+    "money left",
+    "remaining money"
+  ],
+  "summary": [
+    "show summary",
+    "expense report",
+    "spending summary",
+    "total expenses"
+  ]
+}

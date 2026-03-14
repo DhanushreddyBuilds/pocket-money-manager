@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat — Pocket AI</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Ionicons for icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+
+    <div class="chat-page">
+        <div class="chat-container glass-panel">
+
+            <!-- Header -->
+            <div class="chat-header">
+                <div style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 18px;">
+                    <ion-icon name="sparkles" style="color: var(--primary-glow);"></ion-icon>
+                    Student Pocket AI
+                </div>
+                <a href="/dashboard">
+                    <button class="btn-secondary" style="font-size: 13px;">
+                        <ion-icon name="bar-chart-outline"
+                            style="vertical-align: middle; margin-right: 4px;"></ion-icon>
+                        Dashboard
+                    </button>
+                </a>
+            </div>
+
+            <!-- Chat Area -->
+            <div id="chat" class="chat-messages">
+                <!-- Messages will be injected here by JS -->
+                <div class="message bot">
+                    Hello! I'm your AI financial assistant. Ask me about your expenses, budget, or advice! 🤖
+                    <span class="message-time">Just now</span>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="typing" class="typing-indicator" style="display: none;">
+                AI is thinking...
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input-area">
+                <input id="msg" type="text" placeholder="Type your message..." autocomplete="off"
+                    onkeydown="if(event.key==='Enter') send()">
+                <button class="btn-primary" onclick="send()">
+                    <ion-icon name="send"></ion-icon>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Re-using existing chat logic but pointing to new IDs if needed, 
+         Since IDs (chat, msg, typing) are same, existing JS should work. -->
+    <script src="/static/js/chat.js"></script>
+
+</body>
+
+</html>

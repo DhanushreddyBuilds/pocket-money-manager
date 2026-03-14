@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — Pocket AI</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <!-- Background Orbs -->
+        <div class="orb orb-1" style="background: #10b981; top: auto; bottom: -50px; left: -50px;"></div>
+        <div class="orb orb-2" style="background: #8b5cf6; top: -50px; right: -50px;"></div>
+
+        <div class="auth-box glass-panel">
+            <div class="auth-title">📝 Join Pocket AI</div>
+
+            <div class="auth-form">
+                <input id="u" type="text" placeholder="Choose a Username" autocomplete="off">
+                <input id="p" type="password" placeholder="Create Password">
+                <button class="btn-primary" onclick="reg()">Create Account</button>
+            </div>
+
+            <div class="auth-footer">
+                Already have an account? <a href="/">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function reg() {
+            const uVal = document.getElementById('u').value;
+            const pVal = document.getElementById('p').value;
+
+            if (!uVal || !pVal) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            fetch("/register", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: uVal,
+                    password: pVal
+                })
+            })
+                .then(r => r.json())
+                .then(_ => {
+                    alert("Registration successful! Please login.");
+                    location = "/";
+                })
+                .catch(e => alert("Error: " + e));
+        }
+    </script>
+
+</body>
+
+</html>

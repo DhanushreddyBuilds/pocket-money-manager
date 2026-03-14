@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Pocket AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- HEADER -->
+        <div class="dash-nav glass-panel" style="padding: 16px 24px;">
+            <div class="dash-title">📊 Financial Overview</div>
+            <a href="/chatpage">
+                <button class="btn-secondary">← Back to Chat</button>
+            </a>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="grid-3">
+            <div class="stat-card glass-panel">
+                <div class="stat-label">Total Balance</div>
+                <div class="stat-value" style="color: var(--success);">₹{{balance}}</div>
+            </div>
+
+            <div class="stat-card glass-panel">
+                <div class="stat-label">Avg Daily Spend</div>
+                <div class="stat-value">₹{{avg}}</div>
+            </div>
+
+            <div class="stat-card glass-panel">
+                <div class="stat-label">7-Day Prediction</div>
+                <div class="stat-value" style="color: var(--primary-glow);">₹{{pred_total}}</div>
+            </div>
+        </div>
+
+        <!-- CHARTS -->
+        <div class="chart-section">
+            <div class="chart-card glass-panel">
+                <h3 style="margin-top: 0; opacity: 0.8;">Spending by Category</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+
+            <div class="chart-card glass-panel">
+                <h3 style="margin-top: 0; opacity: 0.8;">Actual vs Predicted</h3>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-card glass-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0;">Detailed Breakdown</h3>
+                <a href="/export-report">
+                    <button class="btn-primary" style="font-size: 14px;">⬇ Download PDF Report</button>
+                </a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cat, amt in summary %}
+                    <tr>
+                        <td>{{cat}}</td>
+                        <td style="font-weight: 600;">₹{{amt}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        // Data from Flask
+        const labels = [{% for cat, amt in summary %}"{{cat}}", {% endfor %}];
+        const values = [{% for cat, amt in summary %}{ { amt } }, {% endfor %}];
+        const total = values.reduce((a, b) => a + b, 0);
+        const pred = {{ pred_total }};
+
+        // Chart Global Defaults for Dark Theme
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+
+        // Pie Chart
+        new Chart(document.getElementById('pieChart'), {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: [
+                        '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' }
+                }
+            }
+        });
+
+        // Bar Chart
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: ["Actual Spend", "Predicted"],
+                datasets: [{
+                    label: 'Amount (₹)',
+                    data: [total, pred],
+                    backgroundColor: ['#3b82f6', '#8b5cf6'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+flask
+flask_sqlalchemy
+flask_cors
+pymysql
+werkzeug
+scikit-learn
+numpy
+reportlab

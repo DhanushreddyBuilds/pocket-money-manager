@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Pocket AI</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <!-- Background Orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <div class="auth-box glass-panel">
+            <div class="auth-title">🤖 Pocket AI</div>
+            
+            <div class="auth-form">
+                <input id="u" type="text" placeholder="Username" autocomplete="off">
+                <input id="p" type="password" placeholder="Password">
+                <button class="btn-primary" onclick="login()">Login to Dashboard</button>
+            </div>
+
+            <div class="auth-footer">
+                New here? <a href="/registerpage">Create an Account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function login(){
+        const uVal = document.getElementById('u').value;
+        const pVal = document.getElementById('p').value;
+
+        if(!uVal || !pVal) {
+            alert("Please enter username and password");
+            return;
+        }
+
+        fetch("/login",{
+            method:"POST",
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                username: uVal,
+                password: pVal
+            })
+        })
+        .then(r=>r.json())
+        .then(d=>{
+            if(d.msg=="ok") location="/chatpage";
+            else alert("Login failed: " + (d.msg || "Unknown error"));
+        })
+        .catch(e => alert("Error: " + e));
+    }
+    </script>
+
+</body>
+</html>
